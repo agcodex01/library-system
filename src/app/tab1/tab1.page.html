@@ -1,17 +1,24 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
+<ion-header>
+  <ion-searchbar
+    [(ngModel)]="searchFilter"
+    animated="true"
+    placeholder="Search books ..."
+  ></ion-searchbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card *ngFor="let book of books | searchFilter: searchFilter">
+    <ion-card-header>
+      <ion-card-title> {{ book.name }} <ion-badge> {{ book.stocks }}</ion-badge> </ion-card-title>
+      <ion-card-subtitle>Author: {{ book.author }}  </ion-card-subtitle>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    </ion-card-header>
+    <ion-card-content>
+      <img [src]="book.image" />
+    </ion-card-content>
+    <ion-card-content>
+      <ion-button color="warning" (click)="borrow(book)" [disabled]="book.stocks === 0">borrow</ion-button>
+      <ion-button color="primary" (click)="viewDetails(book.id)">view</ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
